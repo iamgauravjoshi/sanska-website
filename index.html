@@ -538,26 +538,6 @@
 			body.no-scroll {
 				overflow: hidden;
 			}
-			/* sticky mobile CTA */
-			.mobile-cta {
-				display: none;
-				position: fixed;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				z-index: 120;
-				background: rgba(255, 255, 255, 0.97);
-				backdrop-filter: blur(12px);
-				border-top: 1px solid var(--line);
-				padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-				gap: 10px;
-				box-shadow: 0 -8px 24px rgba(10, 30, 54, 0.1);
-			}
-			.mobile-cta .btn {
-				flex: 1;
-				padding: 14px 8px;
-				font-size: 13.5px;
-			}
 			/* animations */
 			@keyframes fadeUp {
 				from {
@@ -1809,9 +1789,6 @@
 				textarea {
 					font-size: 16px !important;
 				}
-				.mobile-cta {
-					display: flex;
-				}
 				body {
 					padding-bottom: 70px;
 				}
@@ -2077,10 +2054,6 @@
 					flex-direction: row;
 					align-items: flex-start;
 				}
-				.mobile-cta .btn {
-					font-size: 12.5px;
-					padding: 13px 6px;
-				}
 			}
 			@media (prefers-reduced-motion: reduce) {
 				* {
@@ -2291,10 +2264,6 @@
 				>
 			</div>
 		</footer>
-		<div class="mobile-cta" role="navigation" aria-label="Quick actions">
-			<a class="btn btn-dark" href="#/candidates">Apply Now</a
-			><a class="btn btn-primary" href="#/employers">Request Manpower</a>
-		</div>
 		<script>
 			function openMobile() {
 				document.getElementById("mMenu").classList.add("open");
