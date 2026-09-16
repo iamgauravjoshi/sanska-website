@@ -32,7 +32,8 @@ export default function VideoHero() {
 
 	return (
 		<section
-			className="relative flex min-h-[100dvh] items-end overflow-hidden bg-navy lg:h-[min(940px,96vh)]"
+			className="relative flex min-h-[100dvh] min-h-screen items-end overflow-hidden bg-navy"
+			// lg:h-[min(940px,96vh)]
 			aria-label="Introduction"
 		>
 			{/* media layer */}
