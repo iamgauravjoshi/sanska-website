@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { WORLD_PATH, WORLD_VIEWBOX, MAP_MARKERS } from "../data/worldMap";
 import { markets } from "../data/countries";
 
@@ -8,98 +8,311 @@ import { markets } from "../data/countries";
  * Markers are markets served, not offices — stated explicitly in the legend.
  */
 interface Props {
-  selected?: string | null;
-  onSelect?: (key: string | null) => void;
-  className?: string;
+	selected?: string | null;
+	onSelect?: (key: string | null) => void;
+	className?: string;
 }
 
-export default function WorldMap({ selected = null, onSelect, className = "" }: Props) {
-  const [hovered, setHovered] = useState<string | null>(null);
-  const origin = useMemo(() => MAP_MARKERS.find((m) => m.key === "origin")!, []);
-  const targets = useMemo(() => {
-    const keys = new Set(markets.map((m) => m.key));
-    return MAP_MARKERS.filter((m) => m.key !== "origin" && keys.has(m.key));
-  }, []);
+export default function WorldMap({
+	selected = null,
+	onSelect,
+	className = "",
+}: Props) {
+	const [hovered, setHovered] = useState<string | null>(null);
+	const [isMobile, setIsMobile] = useState(false);
 
-  const arc = (x1: number, y1: number, x2: number, y2: number) => {
-    const mx = (x1 + x2) / 2;
-    const my = (y1 + y2) / 2;
-    const dist = Math.hypot(x2 - x1, y2 - y1);
-    const lift = Math.min(90, dist * 0.42);
-    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${mx.toFixed(1)} ${(my - lift).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
-  };
+	useEffect(() => {
+		const mediaQuery = window.matchMedia("(max-width: 767px)");
 
-  const activeKey = hovered ?? selected;
+		const handleChange = () => {
+			setIsMobile(mediaQuery.matches);
+		};
 
-  return (
-    <figure className={`relative ${className}`} role="img" aria-label="World map highlighting Sanska recruitment corridors from India to GCC countries, Europe and Mauritius">
-      <svg viewBox={WORLD_VIEWBOX} className="h-auto w-full" aria-hidden="true">
-        <path d={WORLD_PATH} fill={selected !== null ? "rgba(214,228,234,0.55)" : "rgba(206,222,229,0.6)"} stroke="rgba(148,175,187,0.35)" strokeWidth="0.5" />
+		handleChange();
 
-        {/* corridors */}
-        {targets.map((t) => {
-          const isActive = !activeKey || activeKey === t.key;
-          return (
-            <g key={t.key}>
-              <path
-                d={arc(origin.x, origin.y, t.x, t.y)}
-                fill="none"
-                stroke={activeKey === t.key ? "#0EB2DF" : "rgba(8,118,160," + (isActive ? 0.55 : 0.14) + ")"}
-                strokeWidth={activeKey === t.key ? 2.1 : 1.15}
-                className="map-arc"
-                strokeLinecap="round"
-              />
-            </g>
-          );
-        })}
+		mediaQuery.addEventListener("change", handleChange);
 
-        {/* origin: India */}
-        <g>
-          <circle cx={origin.x} cy={origin.y} r={4} fill="none" stroke="#67BD53" strokeWidth="1.6" className="map-pulse" />
-          <circle cx={origin.x} cy={origin.y} r={4.4} fill="#67BD53" stroke="#fff" strokeWidth="1.2" />
-          <text x={origin.x + 9} y={origin.y + 3.5} fontSize="10.5" fontWeight="800" fill="#062D43" fontFamily="Inter, sans-serif" letterSpacing="0.06em">
-            INDIA
-          </text>
-        </g>
+		return () => {
+			mediaQuery.removeEventListener("change", handleChange);
+		};
+	}, []);
 
-        {/* destination markers */}
-        {targets.map((t) => {
-          const isActive = activeKey === t.key;
-          return (
-            <g
-              key={t.key}
-              onMouseEnter={() => setHovered(t.key)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => onSelect?.(selected === t.key ? null : t.key)}
-              className={onSelect ? "cursor-pointer" : "cursor-default"}
-            >
-              <title>{`${t.name} — market served (recruitment corridor)`}</title>
-              <circle cx={t.x} cy={t.y} r={12} fill="transparent" />
-              <circle cx={t.x} cy={t.y} r={isActive ? 5 : 3.6} fill={isActive ? "#0EB2DF" : "#0A3A56"} stroke="#fff" strokeWidth={isActive ? 1.5 : 1} className="transition-all duration-200" />
-              {isActive && <circle cx={t.x} cy={t.y} r={9} fill="rgba(14,178,223,0.14)" />}
-              {(isActive || t.key === "Europe" || t.key === "Mauritius") && (
-              <text
-                x={t.x}
-                y={t.y - 10}
-                fontSize="10"
-                fontWeight="700"
-                textAnchor="middle"
-                fill="#12252F"
-                fontFamily="Inter, sans-serif"
-                style={{ paintOrder: "stroke", stroke: "rgba(255,255,255,0.85)", strokeWidth: 3 }}
-              >
-                {t.name.replace(" (selected markets)", "").toUpperCase()}
-              </text>
-              )}
-            </g>
-          );
-        })}
-      </svg>
-      <figcaption className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[11.5px] font-medium text-muted">
-        <span className="flex items-center gap-1.5"><i className="inline-block h-2.5 w-2.5 rounded-full bg-leaf ring-1 ring-white" aria-hidden="true" /> India — sourcing base</span>
-        <span className="flex items-center gap-1.5"><i className="inline-block h-2.5 w-2.5 rounded-full bg-navy ring-1 ring-white" aria-hidden="true" /> Market served (corridor)</span>
-        <span className="flex items-center gap-1.5"><i className="inline-block h-0.5 w-5 rounded bg-brand" aria-hidden="true" /> Recruitment corridor — not an office location</span>
-      </figcaption>
-    </figure>
-  );
+	const origin = useMemo(
+		() => MAP_MARKERS.find((m) => m.key === "origin")!,
+		[],
+	);
+
+	const targets = useMemo(() => {
+		const keys = new Set(markets.map((m) => m.key));
+
+		return MAP_MARKERS.filter((m) => m.key !== "origin" && keys.has(m.key));
+	}, []);
+
+	/**
+	 * Mobile viewBox:
+	 * Instead of showing the entire world, calculate the area
+	 * containing India + all destination markers.
+	 */
+	const mobileViewBox = useMemo(() => {
+		const points = [origin, ...targets];
+
+		const minX = Math.min(...points.map((p) => p.x));
+		const maxX = Math.max(...points.map((p) => p.x));
+
+		const minY = Math.min(...points.map((p) => p.y));
+		const maxY = Math.max(...points.map((p) => p.y));
+
+		/*
+		 * Extra padding is intentionally asymmetric.
+		 *
+		 * More top padding is required because recruitment
+		 * corridors curve upward.
+		 */
+		const paddingLeft = 45;
+		const paddingRight = 45;
+		const paddingTop = 100;
+		const paddingBottom = 45;
+
+		const x = minX - paddingLeft;
+		const y = minY - paddingTop;
+
+		const width = maxX - minX + paddingLeft + paddingRight;
+
+		const height = maxY - minY + paddingTop + paddingBottom;
+
+		return `${x} ${y} ${width} ${height}`;
+	}, [origin, targets]);
+
+	const arc = (x1: number, y1: number, x2: number, y2: number) => {
+		const mx = (x1 + x2) / 2;
+		const my = (y1 + y2) / 2;
+
+		const dist = Math.hypot(x2 - x1, y2 - y1);
+		const lift = Math.min(90, dist * 0.42);
+
+		return `M ${x1.toFixed(1)} ${y1.toFixed(1)}
+            Q ${mx.toFixed(1)} ${(my - lift).toFixed(1)}
+            ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+	};
+
+	const activeKey = hovered ?? selected;
+
+	return (
+		<figure
+			className={`relative ${className}`}
+			role="img"
+			aria-label="World map highlighting Sanska recruitment corridors from India to GCC countries, Europe and Mauritius"
+		>
+			{/* Map */}
+			<div className="w-full overflow-hidden">
+				<svg
+					viewBox={isMobile ? mobileViewBox : WORLD_VIEWBOX}
+					preserveAspectRatio="xMidYMid meet"
+					className="
+            block
+            w-full
+            h-auto
+            min-h-[300px]
+            sm:min-h-0
+          "
+					aria-hidden="true"
+				>
+					{/* World */}
+					<path
+						d={WORLD_PATH}
+						fill={
+							selected !== null
+								? "rgba(214,228,234,0.55)"
+								: "rgba(206,222,229,0.6)"
+						}
+						stroke="rgba(148,175,187,0.35)"
+						strokeWidth="0.5"
+					/>
+
+					{/* Recruitment corridors */}
+					{targets.map((t) => {
+						const isActive = !activeKey || activeKey === t.key;
+
+						return (
+							<path
+								key={t.key}
+								d={arc(origin.x, origin.y, t.x, t.y)}
+								fill="none"
+								stroke={
+									activeKey === t.key
+										? "#0EB2DF"
+										: `rgba(8,118,160,${isActive ? 0.55 : 0.14})`
+								}
+								strokeWidth={activeKey === t.key ? 2.1 : 1.15}
+								className="map-arc"
+								strokeLinecap="round"
+							/>
+						);
+					})}
+
+					{/* India origin */}
+					<g>
+						<circle
+							cx={origin.x}
+							cy={origin.y}
+							r={4}
+							fill="none"
+							stroke="#67BD53"
+							strokeWidth="1.6"
+							className="map-pulse"
+						/>
+
+						<circle
+							cx={origin.x}
+							cy={origin.y}
+							r={4.4}
+							fill="#67BD53"
+							stroke="#fff"
+							strokeWidth="1.2"
+						/>
+
+						<text
+							x={origin.x + 9}
+							y={origin.y + 3.5}
+							fontSize="10.5"
+							fontWeight="800"
+							fill="#062D43"
+							fontFamily="Inter, sans-serif"
+							letterSpacing="0.06em"
+						>
+							INDIA
+						</text>
+					</g>
+
+					{/* Destination markers */}
+					{targets.map((t) => {
+						const isActive = activeKey === t.key;
+
+						return (
+							<g
+								key={t.key}
+								onMouseEnter={() => setHovered(t.key)}
+								onMouseLeave={() => setHovered(null)}
+								onClick={() => onSelect?.(selected === t.key ? null : t.key)}
+								className={onSelect ? "cursor-pointer" : "cursor-default"}
+							>
+								<title>
+									{`${t.name} — market served (recruitment corridor)`}
+								</title>
+
+								{/* Larger interaction area */}
+								<circle cx={t.x} cy={t.y} r={12} fill="transparent" />
+
+								{/* Marker */}
+								<circle
+									cx={t.x}
+									cy={t.y}
+									r={isActive ? 5 : 3.6}
+									fill={isActive ? "#0EB2DF" : "#0A3A56"}
+									stroke="#fff"
+									strokeWidth={isActive ? 1.5 : 1}
+									className="transition-all duration-200"
+								/>
+
+								{/* Active halo */}
+								{isActive && (
+									<circle
+										cx={t.x}
+										cy={t.y}
+										r={9}
+										fill="rgba(14,178,223,0.14)"
+									/>
+								)}
+
+								{/* Labels */}
+								{(isActive || t.key === "Europe" || t.key === "Mauritius") && (
+									<text
+										x={t.x}
+										y={t.y - 10}
+										fontSize="10"
+										fontWeight="700"
+										textAnchor="middle"
+										fill="#12252F"
+										fontFamily="Inter, sans-serif"
+										style={{
+											paintOrder: "stroke",
+											stroke: "rgba(255,255,255,0.85)",
+											strokeWidth: 3,
+										}}
+									>
+										{t.name.replace(" (selected markets)", "").toUpperCase()}
+									</text>
+								)}
+							</g>
+						);
+					})}
+				</svg>
+			</div>
+
+			{/* Legend */}
+			<figcaption
+				className="
+          mt-4
+          flex
+          flex-wrap
+          items-center
+          gap-x-5
+          gap-y-1.5
+          text-[11.5px]
+          font-medium
+          text-muted
+
+          max-sm:grid
+          max-sm:grid-cols-1
+          max-sm:gap-2
+        "
+			>
+				<span className="flex items-center gap-1.5">
+					<i
+						className="
+              inline-block
+              h-2.5
+              w-2.5
+              rounded-full
+              bg-leaf
+              ring-1
+              ring-white
+            "
+						aria-hidden="true"
+					/>
+					India — sourcing base
+				</span>
+
+				<span className="flex items-center gap-1.5">
+					<i
+						className="
+              inline-block
+              h-2.5
+              w-2.5
+              rounded-full
+              bg-navy
+              ring-1
+              ring-white
+            "
+						aria-hidden="true"
+					/>
+					Market served (corridor)
+				</span>
+
+				<span className="flex items-center gap-1.5">
+					<i
+						className="
+              inline-block
+              h-0.5
+              w-5
+              rounded
+              bg-brand
+            "
+						aria-hidden="true"
+					/>
+					Recruitment corridor — not an office location
+				</span>
+			</figcaption>
+		</figure>
+	);
 }

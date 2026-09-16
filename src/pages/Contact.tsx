@@ -14,6 +14,30 @@ import companyConfig from "../data/companyConfig";
 import { CTAButton } from "../components/Buttons";
 import { useSeo } from "../hooks/useSeo";
 
+function GoogleLocationMap() {
+	return (
+		<>
+			{/* Map policy — no fake embeds */}
+			<iframe
+				src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d79436.4974061912!2d75.67152033661402!3d26.879620277462642!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db549425b1a6b%3A0x58fbb30d6dee5e68!2sSanska%20International%20Edificational%20Services%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1789522324860!5m2!1sen!2sin"
+				width="600"
+				height="400"
+				style={{
+					border: "1px solid #dfe7ea",
+					borderRadius: 12,
+					width: "100%",
+					order: -1,
+					// maxWidth: 600,
+					maxHeight: 400,
+				}}
+				allowFullScreen={true}
+				loading="lazy"
+				referrerPolicy="strict-origin-when-cross-origin"
+			/>
+		</>
+	);
+}
+
 export default function Contact() {
 	useSeo({
 		title: "Contact Sanska International | Overseas Recruitment Desk, India",
@@ -126,16 +150,9 @@ export default function Contact() {
 								</p>
 							</div>
 
-							{/* Map policy — no fake embeds */}
-							<iframe
-								src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d79436.4974061912!2d75.67152033661402!3d26.879620277462642!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db549425b1a6b%3A0x58fbb30d6dee5e68!2sSanska%20International%20Edificational%20Services%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1789522324860!5m2!1sen!2sin"
-								width="600"
-								height="400"
-								style={{ border: "1px solid #dfe7ea", borderRadius: 12 }}
-								allowFullScreen={true}
-								loading="lazy"
-								referrerPolicy="strict-origin-when-cross-origin"
-							/>
+							<div className="hidden lg:block">
+								<GoogleLocationMap />
+							</div>
 						</div>
 					</div>
 
@@ -183,13 +200,16 @@ export default function Contact() {
 								General enquiry form
 							</h3>
 							<ContactForm />
+							<div className="block lg:hidden mt-10">
+								<GoogleLocationMap />
+							</div>
 						</div>
 					</div>
 				</div>
 			</section>
 
 			<section className="border-t border-line bg-paper py-12">
-				<div className="container-x flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
+				<div className="container-x flex flex-col items-center justify-between gap-5 text-center lg:flex-row lg:text-left">
 					<p className="max-w-xl text-[14px] leading-relaxed text-muted">
 						<strong className="font-semibold text-navy">
 							Time-critical requirement?
@@ -197,15 +217,15 @@ export default function Contact() {
 						Call the desk with your trade list and joining dates — voice contact
 						moves fastest at project level.
 					</p>
-					<div className="flex gap-3">
+					<div className="flex gap-3 flex-col sm:flex-row">
 						<CTAButton
 							href={`tel:${companyConfig.contact.phone.replace(/[^\d+]/g, "")}`}
-							variant="navy"
+							variant="primary"
 							withArrow={false}
 						>
 							<Phone className="h-4 w-4" aria-hidden="true" /> Call office
 						</CTAButton>
-						<CTAButton to="/employers" variant="outline">
+						<CTAButton to="/employers" variant="green">
 							Submit requirement online
 						</CTAButton>
 					</div>

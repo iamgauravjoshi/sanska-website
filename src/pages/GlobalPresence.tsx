@@ -137,12 +137,7 @@ export default function GlobalPresence() {
 					/>
 					<div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
 						{shown.map((m) => (
-							<CountryCard
-								key={m.key}
-								market={m}
-								active={selected === m.key}
-								// onHover={setSelected}
-							/>
+							<CountryCard key={m.key} market={m} active={selected === m.key} />
 						))}
 					</div>
 					{shown.length === 0 && (

@@ -3,9 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import { CTAButton } from "./Buttons";
-import { mainNav, aboutUsNav, NavChild } from "../data/nav";
-import companyConfig from "../data/companyConfig";
-import { isPlaceholder } from "../utils/placeholders";
+import { mainNav, NavChild } from "../data/nav";
 import Icon from "./Icon";
 
 export default function Header() {
@@ -46,7 +44,6 @@ export default function Header() {
 	}, [drawer]);
 
 	const solid = !isHome || scrolled;
-	const phoneReal = !isPlaceholder(companyConfig.contact.phone);
 
 	return (
 		<>
@@ -141,46 +138,6 @@ export default function Header() {
 									)}
 								</li>
 							))}
-							{/* About Nav group */}
-							{/* <li
-								className="relative"
-								onMouseEnter={() => setOpenGroup("More")}
-								onMouseLeave={() => setOpenGroup(null)}
-							>
-								<button
-									type="button"
-									aria-expanded={openGroup === "More"}
-									className={`flex items-center gap-1 rounded-md px-3 py-2 text-[13.5px] font-semibold transition-colors ${
-										solid
-											? "text-navy/85 hover:text-brand-600"
-											: "text-white/90 hover:text-white"
-									}`}
-								>
-									About Us
-									<ChevronDown
-										className={`h-3.5 w-3.5 opacity-70 transition-transform duration-200 ${openGroup === "More" ? "rotate-180" : ""}`}
-										aria-hidden="true"
-									/>
-								</button>
-								{openGroup === "More" && (
-									<div className="absolute right-0 top-full w-[250px] pt-[6px]">
-										<div className="rounded-lg border border-line bg-white p-1.5 shadow-lift">
-											<ul>
-												{aboutUsNav.map((c) => (
-													<li key={c.to}>
-														<Link
-															to={c.to}
-															className="block rounded-md px-3 py-2 text-[13.5px] font-medium text-ink transition-colors hover:bg-[#E8F7FC] hover:text-[#0694BC]"
-														>
-															{c.label}
-														</Link>
-													</li>
-												))}
-											</ul>
-										</div>
-									</div>
-								)}
-							</li> */}
 						</ul>
 					</nav>
 
@@ -245,10 +202,7 @@ export default function Header() {
 						className="scrollbar-slim flex-1 overflow-y-auto px-5 py-4"
 					>
 						<ul className="space-y-0.5">
-							{[
-								...mainNav,
-								{ label: "More", to: "#", children: aboutUsNav },
-							].map((item) => {
+							{mainNav.map((item) => {
 								const hasKids =
 									"children" in item &&
 									item.children &&
@@ -314,24 +268,11 @@ export default function Header() {
 						</CTAButton>
 						<CTAButton
 							to="/candidates"
-							variant="outline"
-							className="mt-2.5 w-full"
+							className="mt-2.5 w-full btn-green"
 							withArrow={false}
 						>
 							Submit CV — Apply Now
 						</CTAButton>
-						<p className="mt-4 text-center text-[12px] text-muted">
-							{phoneReal ? (
-								<a
-									href={`tel:${companyConfig.contact.phone.replace(/[^\d+]/g, "")}`}
-									className="font-semibold text-navy"
-								>
-									{companyConfig.contact.phone}
-								</a>
-							) : (
-								"Contact details published on the Contact page"
-							)}
-						</p>
 					</div>
 				</div>
 			</div>

@@ -23,13 +23,13 @@ export const stats: Stat[] = [
 	},
 	{
 		key: "clients",
-		value: "25",
+		value: "30",
 		label: "International employers served",
 		sub: "Verified client count",
 	},
 	{
 		key: "countries",
-		value: "12",
+		value: "8",
 		label: "Destination countries",
 		sub: "Markets covered from India",
 	},
