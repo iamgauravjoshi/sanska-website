@@ -87,7 +87,7 @@ export default function Header() {
 										}
 										onFocus={() => item.children && setOpenGroup(item.label)}
 										className={({ isActive }) =>
-											`flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-base tracking-wide transition-colors duration-200 relative ${
+											`flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-base font-medium tracking-wide transition-colors duration-200 relative ${
 												isActive && openGroup !== item.label
 													? solid
 														? "text-brand-600"

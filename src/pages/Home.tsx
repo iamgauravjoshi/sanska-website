@@ -99,13 +99,13 @@ export default function Home() {
 							eager
 						/>
 						<figure
-							className="card-x absolute -bottom-7 -right-3 hidden max-w-[230px] p-4 sm:block lg:-right-8"
+							className="card-x absolute -bottom-7 -right-3 hidden max-w-[230px] p-4 sm:block lg:-right-8 bg-leaf-50"
 							aria-hidden="false"
 						>
-							<p className="font-display text-[26px] font-extrabold leading-none text-navy">
-								7
+							<p className="font-display text-[26px] font-extrabold leading-none text-leaf-700">
+								10+
 							</p>
-							<p className="mt-1 text-[12px] font-semibold leading-snug text-muted">
+							<p className="mt-1 text-[12px] font-semibold leading-snug text-leaf-700">
 								industry verticals with dedicated trade-screening standards
 							</p>
 						</figure>

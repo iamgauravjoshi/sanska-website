@@ -71,7 +71,7 @@ export default function VideoHero() {
 					<p className="eyebrow eyebrow-light mb-5">
 						Overseas manpower recruitment from India
 					</p>
-					<h1 className="text-shadow-hero font-display text-[clamp(2.05rem,4.7vw,3.9rem)] font-extrabold leading-[1.07] text-white">
+					<h1 className="text-shadow-hero font-display text-[clamp(2.05rem,4.7vw,3.45rem)] font-extrabold leading-[1.07] text-white">
 						Connecting global employers with reliable{" "}
 						<span className="text-brand-400">Indian talent</span>
 					</h1>
