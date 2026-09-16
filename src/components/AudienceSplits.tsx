@@ -10,7 +10,7 @@ export function SplitAudienceCTA() {
 			aria-label="Employer and candidate actions"
 		>
 			{/* Employer CTA */}
-			<div className="relative isolate overflow-hidden px-6 py-16 text-white sm:px-10 md:py-20 lg:px-14 lg:py-[72px]">
+			<div className="relative isolate overflow-hidden px-5 py-10 text-white sm:px-8 sm:py-12 xl:px-14 xl:py-16">
 				{/* Background image */}
 				<img
 					src="/images/need-manpower-bg.webp"
@@ -27,17 +27,20 @@ export function SplitAudienceCTA() {
 				/>
 
 				<div className="relative mx-auto max-w-xl lg:mr-0 lg:ml-auto">
-					<h3 className="font-display text-[clamp(1.8rem,3vw,2rem)] font-extrabold leading-tight text-white">
+					<h3 className="font-display text-[clamp(1.5rem,3vw,2rem)] font-extrabold leading-tight text-white">
 						Need Reliable Manpower?
 					</h3>
 
-					<p className="mt-4 max-w-lg text-[15.5px] leading-relaxed text-slate-300">
+					<p className="mt-4 max-w-lg text-[13px] md:text-base leading-relaxed text-slate-300">
 						Structured recruitment from sourcing through deployment — around
 						your role, volume, timeline and destination.
 					</p>
 
-					<div className="mt-8 flex flex-col gap-3 sm:flex-row">
-						<CTAButton to="/employers" className="!px-7 !py-3.5">
+					<div className="mt-8 flex flex-row gap-3 sm:flex-row">
+						<CTAButton
+							to="/employers"
+							className="max-[768px]:px-4 max-[768px]:py-2"
+						>
 							Request Manpower
 						</CTAButton>
 
@@ -45,7 +48,7 @@ export function SplitAudienceCTA() {
 							to="/contact"
 							variant="ghost-light"
 							withArrow={false}
-							className="!px-7 !py-3.5"
+							className="max-[768px]:px-4 max-[768px]:py-2"
 						>
 							Get in touch
 						</CTAButton>
@@ -54,7 +57,7 @@ export function SplitAudienceCTA() {
 			</div>
 
 			{/* Candidate CTA */}
-			<div className="relative isolate overflow-hidden px-6 py-16 text-white sm:px-10 md:py-20 lg:px-14 lg:py-[72px]">
+			<div className="relative isolate overflow-hidden px-5 py-10 text-white sm:px-8 sm:py-12 xl:px-14 xl:py-16">
 				{/* Background image */}
 				<img
 					src="/images/need-global-opportunity-bg.webp"
@@ -71,11 +74,11 @@ export function SplitAudienceCTA() {
 				/>
 
 				<div className="relative mx-auto max-w-xl lg:ml-0 lg:mr-auto">
-					<h3 className="font-display text-[clamp(1.8rem,3vw,2rem)] font-extrabold leading-tight text-white">
+					<h3 className="font-display text-[clamp(1.5rem,3vw,2rem)] font-extrabold leading-tight text-white">
 						Looking for an Opportunity Abroad?
 					</h3>
 
-					<p className="mt-4 max-w-lg text-[15.5px] leading-relaxed text-white/80">
+					<p className="mt-4 max-w-lg text-[13px] md:text-base leading-relaxed text-white/80">
 						Legitimate international opportunities matched to your skills and
 						experience.
 					</p>
@@ -83,7 +86,7 @@ export function SplitAudienceCTA() {
 					<div className="mt-8">
 						<CTAButton
 							to="/candidates"
-							className="!bg-white !px-7 !py-3.5 !text-[#08745b] hover:!bg-slate-100"
+							className="!bg-white max-[768px]:px-4 max-[768px]:py-2 !text-[#08745b] hover:!bg-slate-100"
 						>
 							Apply Now
 						</CTAButton>

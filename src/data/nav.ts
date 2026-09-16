@@ -30,7 +30,7 @@ export const aboutUsNav: NavChild[] = [
 		to: "/recruitment-process",
 		desc: "Requirement to deployment",
 	},
-	// { label: "Projects & Deployments", to: "/projects" },
+	{ label: "Projects & Deployments", to: "/projects" },
 	{
 		label: "Licenses & Certifications",
 		to: "/licenses",

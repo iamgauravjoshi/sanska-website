@@ -27,6 +27,7 @@ import { credentials } from "../data/licenses";
 import companyConfig from "../data/companyConfig";
 import { Ph, isPlaceholder } from "../utils/placeholders";
 import { useSeo } from "../hooks/useSeo";
+import { SplitAudienceCTA } from "../components/AudienceSplits";
 
 const WHY = [
 	{
@@ -218,7 +219,8 @@ export default function Home() {
 						lede="Each sector runs on its own screening standards, certification checks and mobilisation patterns. Hover a tile — or open the sector page — for typical roles."
 						cta={{ label: "Industries overview", to: "/industries" }}
 					/>
-					<div className="mt-10 grid auto-rows-[230px] gap-4 md:grid-cols-4 md:auto-rows-[210px]">
+					<div className="mt-10 grid gap-4 md:grid-cols-4 ">
+						{/*  auto-rows-[230px] md:auto-rows-[210px] */}
 						{industries.map((ind, i) => (
 							<IndustryTile
 								key={ind.slug}
@@ -500,92 +502,7 @@ export default function Home() {
 			</section>
 
 			{/* ── Final CTA ──────────────────────────────────────────────── */}
-			<section
-				className="grid grid-cols-1 lg:grid-cols-2"
-				aria-label="Employer and candidate actions"
-			>
-				{/* Employer CTA */}
-				<div className="relative isolate overflow-hidden px-6 py-16 text-white sm:px-10 md:py-20 lg:px-14 lg:py-[72px]">
-					{/* Background image */}
-					<img
-						src="/images/need-manpower-bg.webp"
-						alt="need-reliable-manpower"
-						aria-hidden="true"
-						loading="lazy"
-						className="absolute inset-0 -z-20 h-full w-full object-cover"
-					/>
-
-					{/* Dark overlay */}
-					<div
-						aria-hidden="true"
-						className="absolute inset-0 -z-10 bg-[linear-gradient(110deg,rgba(11,38,56,.88)_0%,rgba(11,38,56,.72)_60%,rgba(11,38,56,.48)_100%)]"
-					/>
-
-					<div className="relative mx-auto max-w-xl lg:mr-0 lg:ml-auto">
-						<h3 className="font-display text-[clamp(1.8rem,3vw,2rem)] font-extrabold leading-tight text-white">
-							Need Reliable Manpower?
-						</h3>
-
-						<p className="mt-4 max-w-lg text-[15.5px] leading-relaxed text-slate-300">
-							Structured recruitment from sourcing through deployment — around
-							your role, volume, timeline and destination.
-						</p>
-
-						<div className="mt-8 flex flex-col gap-3 sm:flex-row">
-							<CTAButton to="/employers" className="!px-7 !py-3.5">
-								Request Manpower
-							</CTAButton>
-
-							<CTAButton
-								to="/contact"
-								variant="ghost-light"
-								withArrow={false}
-								className="!px-7 !py-3.5"
-							>
-								Get in touch
-							</CTAButton>
-						</div>
-					</div>
-				</div>
-
-				{/* Candidate CTA */}
-				<div className="relative isolate overflow-hidden px-6 py-16 text-white sm:px-10 md:py-20 lg:px-14 lg:py-[72px]">
-					{/* Background image */}
-					<img
-						src="/images/need-global-opportunity-bg.webp"
-						alt="need-global-opportunity"
-						aria-hidden="true"
-						loading="lazy"
-						className="absolute inset-0 -z-20 h-full w-full object-cover"
-					/>
-
-					{/* Green overlay */}
-					<div
-						aria-hidden="true"
-						className="absolute inset-0 -z-10 bg-[linear-gradient(110deg,rgba(11,38,56,.84)_0%,rgba(16,70,38,.62)_100%)]"
-					/>
-
-					<div className="relative mx-auto max-w-xl lg:ml-0 lg:mr-auto">
-						<h3 className="font-display text-[clamp(1.8rem,3vw,2rem)] font-extrabold leading-tight text-white">
-							Looking for an Opportunity Abroad?
-						</h3>
-
-						<p className="mt-4 max-w-lg text-[15.5px] leading-relaxed text-white/80">
-							Legitimate international opportunities matched to your skills and
-							experience.
-						</p>
-
-						<div className="mt-8">
-							<CTAButton
-								to="/candidates"
-								className="!bg-white !px-7 !py-3.5 !text-[#08745b] hover:!bg-slate-100"
-							>
-								Apply Now
-							</CTAButton>
-						</div>
-					</div>
-				</div>
-			</section>
+			<SplitAudienceCTA />
 		</>
 	);
 }
